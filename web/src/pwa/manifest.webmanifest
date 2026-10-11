@@ -1,0 +1,18 @@
+{
+  "name": "Unciv",
+  "short_name": "Unciv",
+  "description": "A free, open-source turn-based strategy game.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#263238",
+  "theme_color": "#263238",
+  "icons": [
+    {
+      "src": "unciv-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
