@@ -4,10 +4,11 @@ pluginManagement {
     repositories {
         mavenLocal() // To get the compiler plugin locally
         gradlePluginPortal() // So other plugins can be resolved
+        mavenCentral()
     }
 }
 
-include("desktop", "core", "tests", "server")
+include("desktop", "core", "tests", "server", "web")
 
 private fun getSdkPath(): String? {
     val localProperties = file("local.properties")

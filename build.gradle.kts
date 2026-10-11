@@ -133,6 +133,16 @@ project(":desktop") {
     }
 }
 
+project(":web") {
+    apply(plugin = "kotlin")
+
+    dependencies {
+        "implementation"(project(":core"))
+        "implementation"(rootProject.libs.coroutines.core)
+        "implementation"(rootProject.libs.gdx)
+    }
+}
+
 // For server-side
 project(":server") {
     apply(plugin = "kotlin")
