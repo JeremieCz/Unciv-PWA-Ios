@@ -15,7 +15,6 @@ import com.unciv.ui.components.input.KeyboardBindings
 import com.unciv.ui.screens.worldscreen.NotificationsScroll
 import com.unciv.utils.Display
 import com.unciv.utils.ScreenOrientation
-import java.awt.Rectangle
 import yairm210.purity.annotations.Readonly
 import java.text.Collator
 import java.text.DecimalFormat

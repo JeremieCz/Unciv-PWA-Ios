@@ -90,6 +90,18 @@ After building, the output .JAR file should be in `/desktop/build/libs/Unciv.jar
 
 For actual development, you'll probably need to download Android Studio and build it yourself - see above :)
 
+### Browser build (experimental)
+
+The web target uses TeaVM to compile the LibGDX game for JavaScript. Run the development server with:
+
+`./gradlew :web:gdx_teavm_web_js_run`
+
+For a deployable build, run:
+
+`./gradlew :web:gdx_teavm_web_js_build`
+
+The PWA manifest, iPhone home-screen metadata, and service worker are added to `web/build/dist/js/webapp`. Serve that directory over HTTPS (or localhost) to test browser installation and offline caching. The first visit requires a network connection to download the game assets; local saves are stored by the browser. The web port is experimental and does not yet support browser file import/export or online multiplayer.
+
 ## Running via Docker
 ### Installing prerequisites
 #### Docker

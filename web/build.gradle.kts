@@ -43,7 +43,9 @@ tasks.register<Copy>("copyPwaAssets") {
                 <meta name="apple-mobile-web-app-capable" content="yes">
                 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
                 <meta name="apple-mobile-web-app-title" content="Unciv">
+                <link rel="apple-touch-icon" href="unciv-icon.png">
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+                <style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#263238}canvas{display:block;width:100vw;height:100vh;touch-action:none;user-select:none;-webkit-user-select:none}</style>
                 <script>if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));</script>
             """.trimIndent()
             index.writeText(html.replace("</head>", "$head\n</head>"))
