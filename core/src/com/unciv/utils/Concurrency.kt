@@ -3,6 +3,7 @@
 package com.unciv.utils
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Application
 import com.badlogic.gdx.LifecycleListener
 import com.unciv.UncivGame
 import com.unciv.ui.crashhandling.wrapCrashHandlingUnit
@@ -165,17 +166,21 @@ object Dispatcher {
 @Suppress("PrivatePropertyName", "PropertyName") // Inherited all-caps names from former dev
 private class Dispatchers {
     private val EXECUTORS = mutableListOf<ExecutorService>()
+    private val isWeb = Gdx.app?.type == Application.ApplicationType.WebGL
 
     /** Runs coroutines on a daemon thread pool. */
-    val DAEMON: CoroutineDispatcher = createThreadpoolDispatcher("threadpool-daemon-", isDaemon = true)
+    val DAEMON: CoroutineDispatcher = if (isWeb) CrashHandlingDispatcher(ImmediateDispatcher)
+        else createThreadpoolDispatcher("threadpool-daemon-", isDaemon = true)
 
     /** Runs coroutines on a non-daemon thread pool. */
-    val NON_DAEMON: CoroutineDispatcher = createThreadpoolDispatcher("threadpool-nondaemon-", isDaemon = false)
+    val NON_DAEMON: CoroutineDispatcher = if (isWeb) CrashHandlingDispatcher(ImmediateDispatcher)
+        else createThreadpoolDispatcher("threadpool-nondaemon-", isDaemon = false)
 
     /** Runs coroutines on the GDX GL thread - unused in e.g. ConsoleLauncher */
     val GL: CoroutineDispatcher by lazy { CrashHandlingDispatcher(GLDispatcher(DAEMON)) }
 
     fun stopThreadPools() {
+        if (isWeb) return
         val iterator = EXECUTORS.iterator()
         while (iterator.hasNext()) {
             val executor = iterator.next()
@@ -184,7 +189,7 @@ private class Dispatchers {
         }
     }
 
-    @Readonly fun isStopped() = EXECUTORS.isEmpty()
+    @Readonly fun isStopped() = !isWeb && EXECUTORS.isEmpty()
 
     private fun createThreadpoolDispatcher(threadPrefix: String, isDaemon: Boolean): CrashHandlingDispatcher {
         val executor = Executors.newCachedThreadPool(object : ThreadFactory {
@@ -197,6 +202,11 @@ private class Dispatchers {
         })
         EXECUTORS.add(executor)
         return CrashHandlingDispatcher(executor.asCoroutineDispatcher())
+    }
+
+    private object ImmediateDispatcher : CoroutineDispatcher() {
+        override fun isDispatchNeeded(context: CoroutineContext) = false
+        override fun dispatch(context: CoroutineContext, block: Runnable) = block.run()
     }
 
     private class CrashHandlingDispatcher(

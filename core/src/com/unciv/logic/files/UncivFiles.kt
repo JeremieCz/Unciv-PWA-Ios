@@ -77,9 +77,9 @@ class UncivFiles(
             gameName, saveFolder, preferExternalStorage, files.externalStoragePath)
         val location = "${saveFolder}/$gameName"
         val localFile = getLocalFile(location)
-        val externalFile = files.external(location)
+        val externalFile = if (files.isExternalStorageAvailable) files.external(location) else null
 
-        val toReturn = if (files.isExternalStorageAvailable && (
+        val toReturn = if (externalFile != null && (
                 externalFile.exists() && !localFile.exists() || // external file is only valid choice
                 preferExternalStorage && (externalFile.exists() || !localFile.exists()) // unless local file is only valid choice, choose external
                 ) ) {
