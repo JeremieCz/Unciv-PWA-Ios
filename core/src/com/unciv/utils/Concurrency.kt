@@ -2,8 +2,8 @@
 
 package com.unciv.utils
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Application
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.LifecycleListener
 import com.unciv.UncivGame
 import com.unciv.ui.crashhandling.wrapCrashHandlingUnit

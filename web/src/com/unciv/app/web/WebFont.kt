@@ -9,6 +9,7 @@ import org.teavm.jso.browser.Window
 import org.teavm.jso.canvas.CanvasRenderingContext2D
 import org.teavm.jso.canvas.TextMetrics
 import org.teavm.jso.dom.html.HTMLCanvasElement
+import kotlin.math.ceil
 
 class WebFont : FontImplementation {
     private val canvas = Window.current().document.createElement("canvas") as HTMLCanvasElement
@@ -41,8 +42,8 @@ class WebFont : FontImplementation {
     override fun getCharPixmap(symbolString: String): Pixmap {
         context.font = "${fontSize}px \"$family\""
         val textMetrics: TextMetrics = context.measureText(symbolString)
-        val width = textMetrics.width.toInt().coerceAtLeast(1)
-        val height = metrics.height.toInt().coerceAtLeast(fontSize)
+        val width = ceil(textMetrics.width).toInt().coerceAtLeast(1)
+        val height = ceil(metrics.height).toInt().coerceAtLeast(fontSize)
         canvas.width = width
         canvas.height = height
         context.font = "${fontSize}px \"$family\""
